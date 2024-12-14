@@ -1,0 +1,21 @@
+Source: slock
+Section: x11
+Priority: optional
+Maintainer: Stanislav Korlev <stan.korolev@mail.ru>
+Build-Depends: debhelper-compat (= 13),
+               libxrandr-dev,
+               dpkg-dev (>= 1.16.1.1)
+Standards-Version: 4.6.2
+Homepage: https://tools.suckless.org/slock/
+Rules-Requires-Root: no
+
+Package: slock
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: suckless-tools, x11-xserver-utils
+Provides: x-window-manager
+Description: Simple X display locker.
+  This is the simplest X screen locker we are aware of. It is stable and quite a
+  lot of people in our community are using it every day when they are out with
+  friends or fetching some food from the local pub. Configuration

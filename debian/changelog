@@ -1,0 +1,11 @@
+slock (1.5-2) stable; urgency=low
+
+  * slock 1.5
+  * debian:
+    - using quilt
+    - first release
+  * patches:
+    - blur_pixelated_screen
+
+
+ -- Stanislav Korolev <stan.korolev@mail.ru>  Sat, 14 Dec 2024 11:21:45 +0300

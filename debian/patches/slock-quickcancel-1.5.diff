@@ -1,0 +1,51 @@
+diff --git a/config.def.h b/config.def.h
+index 81a55af..47f6e6c 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -11,6 +11,9 @@ static const char *colorname[NUMCOLS] = {
+ /* treat a cleared input like a wrong password (color) */
+ static const int failonclear = 1;
+ 
++/* time in seconds to cancel lock with mouse movement */
++static const int timetocancel = 4;
++
+ /*Enable blur*/
+ #define BLUR
+ /*Set blur radius*/
+diff --git a/slock.c b/slock.c
+index b93871a..31306aa 100644
+--- a/slock.c
++++ b/slock.c
+@@ -13,6 +13,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <unistd.h>
++#include <time.h>
+ #include <sys/types.h>
+ #include <X11/extensions/Xrandr.h>
+ #include <X11/keysym.h>
+@@ -26,6 +27,8 @@
+ 
+ char *argv0;
+ 
++static time_t locktime;
++
+ enum {
+ 	INIT,
+ 	INPUT,
+@@ -146,6 +149,7 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
+ 	oldc = INIT;
+ 
+ 	while (running && !XNextEvent(dpy, &ev)) {
++		running = !((time(NULL) - locktime < timetocancel) && (ev.type == MotionNotify));
+ 		if (ev.type == KeyPress) {
+ 			explicit_bzero(&buf, sizeof(buf));
+ 			num = XLookupString(&ev.xkey, buf, sizeof(buf), &ksym, 0);
+@@ -307,6 +311,7 @@ lockscreen(Display *dpy, struct xrandr *rr, int screen)
+ 				XRRSelectInput(dpy, lock->win, RRScreenChangeNotifyMask);
+ 
+ 			XSelectInput(dpy, lock->root, SubstructureNotifyMask);
++			locktime = time(NULL);
+ 			return lock;
+ 		}
+ 
