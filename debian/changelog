@@ -6,6 +6,9 @@ slock (1.5-2) stable; urgency=low
     - first release
   * patches:
     - blur_pixelated_screen
-
+    - media-keys
+    - mediakeys
+    - quickcancel
+    - terminalkeys
 
  -- Stanislav Korolev <stan.korolev@mail.ru>  Sat, 14 Dec 2024 11:21:45 +0300
